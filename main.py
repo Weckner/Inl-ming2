@@ -1,5 +1,5 @@
 from datetime import datetime
-from produkt import Product
+from product import Product
 def GetIntMenyInput(menyValA, minValue, maxValue):
     while True:
         try:
@@ -32,7 +32,10 @@ def NyttKvitto():
                     pass
             else:
                 try:
-                    
+                    with open("Products.txt","r") as productList:
+                        for product in productList:
+                            if newPurchase.GetName() == product.GetName():
+                                pass
                     kvitto.append()
                 except:
                     print("Nu vart det fel.")
