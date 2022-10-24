@@ -1,5 +1,19 @@
 from datetime import datetime
 from product import Product
+from receipt import Receipt
+allProducts = []
+with open("products.txt","r") as productFile:
+    for product in productFile:
+        parts = product.split(";")
+        product = Product(parts[0],parts[1],parts[2],parts[3] )
+        allProducts.append(product)
+# print(allProducts[0].GetName())
+# print(allProducts[0].GetPrice())
+# print(allProducts[0].GetPriceType())
+# print(allProducts[0].GetProductID())
+
+def HuvudMeny() -> int:
+    selection = GetIntMenyInput("KASSA \n1. Ny Kund \n2. Avsluta\n",1,2)
 def GetIntMenyInput(menyValA, minValue, maxValue):
     while True:
         try:
@@ -21,22 +35,24 @@ def GetNr():
             return currentCounter
         
 
-def NyttKvitto():
-    kvitto = []
+def NewReceipt(allProducts):
+    receipt = Receipt()
     while True:
-        print(f"Kvitto: #{GetNr()} {GetTime()}\n{kvitto}")
+        print(f"Kvitto: #{GetNr()} {GetTime()}")
+        for ReceiptRow in receipt:
+            print(ReceiptRow)
+        print(receipt.GetTotal)
         try:    
-            newPurchase = input("Buy item or pay")
+            newPurchase = (input("Buy item or pay"))
             if newPurchase.lower == "pay":
                 with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
                     pass
             else:
                 try:
-                    with open("Products.txt","r") as productList:
-                        for product in productList:
-                            if newPurchase.GetName() == product.GetName():
-                                pass
-                    kvitto.append()
+                    for product in allProducts:
+                        if newPurchase.GetName() == product.GetName():
+                            pass
+                    
                 except:
                     print("Nu vart det fel.")
                     
@@ -53,11 +69,11 @@ def GetDate():
     date = datetime.now()
     formatedDate = date.strftime("%Y-%m-%d")
     return formatedDate
-banan = Product(300, "Banan",5,"Styck")
+
 while True:
-    selection = GetIntMenyInput("KASSA \n1. Ny Kund \n2. Avsluta\n",1,2)
+    selection = HuvudMeny()
     if selection == 1:
-        pass
+        NewReceipt(allProducts)
     elif selection == 2:
         break
     
