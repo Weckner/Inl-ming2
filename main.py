@@ -14,6 +14,7 @@ with open("products.txt","r") as productFile:
 
 def HuvudMeny() -> int:
     selection = GetIntMenyInput("KASSA \n1. Ny Kund \n2. Avsluta\n",1,2)
+    return selection
 def GetIntMenyInput(menyValA, minValue, maxValue):
     while True:
         try:
@@ -27,32 +28,42 @@ def GetIntMenyInput(menyValA, minValue, maxValue):
     return select
 
 def GetNr():
-    with open("counter.txt","w") as counter:
-        for currentCounter in counter:
-            int(currentCounter)
-            currentCounter = currentCounter + 1
-            counter.write(currentCounter)
-            return currentCounter
+    # with open("counter.txt","w") as counter:
+    #     for currentCounter in counter:
+    #         IntCounter = int(currentCounter)
+    #         IntCounter = IntCounter + 1
+    #         CurrentCounter = str(IntCounter)
+    #         counter.write(CurrentCounter)
+            return 1
         
+def FindProduct(allProducts, ProductID):
+    for prod in allProducts:
+        if prod.GetProductID() == ProductID:
+            return prod
+    return None
 
 def NewReceipt(allProducts):
     receipt = Receipt()
     while True:
         print(f"Kvitto: #{GetNr()} {GetTime()}")
-        for ReceiptRow in receipt:
-            print(ReceiptRow)
-        print(receipt.GetTotal)
+        for row in receipt.GetReceiptRows():
+            print(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
+        print(receipt.GetTotal())
         try:    
-            newPurchase = (input("Buy item or pay"))
+            newPurchase = (input("Buy item or pay "))
             if newPurchase.lower == "pay":
                 with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
                     pass
             else:
                 try:
-                    for product in allProducts:
-                        if newPurchase.GetName() == product.GetName():
-                            pass
-                    
+                    splitPurchase = newPurchase.split(" ")
+                    prod = FindProduct(allProducts,splitPurchase[0])
+                    if prod == None:
+                        print("Produkten finns inte!")
+                    else:
+
+                        receipt.Add(prod.GetName(), int(splitPurchase[1]),prod.GetPrice(),splitPurchase[0])
+                    print(splitPurchase)
                 except:
                     print("Nu vart det fel.")
                     

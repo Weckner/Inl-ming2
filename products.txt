@@ -1,1 +1,2 @@
 300;Bananer;4.50;PerKilo
+200;Bullar;10;PerStyck

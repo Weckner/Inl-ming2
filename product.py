@@ -7,7 +7,7 @@ class Product:
     def GetName(self):
         return self.__Name
     def GetPrice(self):
-        return self.__Price
+        return float(self.__Price)
     def GetProductID(self):
         return self.__ProductID    
     def GetPriceType(self):
