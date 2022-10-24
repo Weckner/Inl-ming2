@@ -49,26 +49,24 @@ def NewReceipt(allProducts):
         for row in receipt.GetReceiptRows():
             print(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
         print(receipt.GetTotal())
-        try:    
-            newPurchase = (input("Buy item or pay "))
-            if newPurchase.lower == "pay":
-                with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
-                    pass
-            else:
-                try:
-                    splitPurchase = newPurchase.split(" ")
-                    prod = FindProduct(allProducts,splitPurchase[0])
-                    if prod == None:
-                        print("Produkten finns inte!")
-                    else:
-
-                        receipt.Add(prod.GetName(), int(splitPurchase[1]),prod.GetPrice(),splitPurchase[0])
-                    print(splitPurchase)
-                except:
-                    print("Nu vart det fel.")
+        #try:    
+        newPurchase = (input("Buy item or pay "))
+        if newPurchase.lower == "pay":
+            with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
+                pass
+        else:
+            #try:
+                splitPurchase = newPurchase.split(" ")
+                prod = FindProduct(allProducts,splitPurchase[0])
+                if prod == None:
+                    print("Produkten finns inte!")
+                else:
+                    receipt.Add(prod.GetName(), int(splitPurchase[1]),prod.GetPrice(),splitPurchase[0])
+                #except:
+                   # print("Nu vart det fel.1")
                     
-        except:
-            print("Nu vart det fel.")
+        #except:
+           # print("Nu vart det fel.2")
         
 
 def GetTime():
