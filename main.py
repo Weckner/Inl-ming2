@@ -50,7 +50,7 @@ def NewReceipt(allProducts):
             print(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
         print(receipt.GetTotal())
         try:    
-            newPurchase = (input("Buy item or pay "))
+            newPurchase = (input("Buy item or pay e.g 300 1"))
             if newPurchase.lower == "pay":
                 with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
                     pass
