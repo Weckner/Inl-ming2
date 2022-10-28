@@ -28,13 +28,14 @@ def GetIntMenyInput(menyValA, minValue, maxValue):
     return select
 
 def GetNr():
-    # with open("counter.txt","w") as counter:
-    #     for currentCounter in counter:
-    #         IntCounter = int(currentCounter)
-    #         IntCounter = IntCounter + 1
-    #         CurrentCounter = str(IntCounter)
-    #         counter.write(CurrentCounter)
-            return 1
+    with open("counter.txt","r") as counter:
+        for currentCounter in counter:
+            intCounter = int(currentCounter)
+            intCounter = intCounter + 1
+            currentCounter = str(intCounter)
+    with open("counter.txt","w") as counter:        
+            counter.write(currentCounter)
+    return intCounter
         
 def FindProduct(allProducts, ProductID):
     for prod in allProducts:
@@ -50,10 +51,11 @@ def NewReceipt(allProducts):
             print(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
         print(receipt.GetTotal())
         try:    
-            newPurchase = (input("Buy item or pay e.g 300 1"))
+            newPurchase = (input("Buy item or pay e.g 300 1 "))
             if newPurchase.lower == "pay":
                 with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
-                    pass
+                    for row in receipt.GetReceiptRows():
+                        Kvittot.write(row)
             else:
                 try:
                     splitPurchase = newPurchase.split(" ")
