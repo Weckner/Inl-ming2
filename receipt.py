@@ -37,5 +37,5 @@ class Receipt:
         for row in self.__ReceiptRows:
             if row.GetProductCode() == productCode:
                 row.AddCount(count)
-        else:
-            self.__ReceiptRows.append(receiptRow)
+                return
+        self.__ReceiptRows.append(receiptRow)

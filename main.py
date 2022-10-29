@@ -13,7 +13,7 @@ with open("products.txt","r") as productFile:
 # print(allProducts[0].GetProductID())
 
 def HuvudMeny() -> int:
-    selection = GetIntMenyInput("KASSA \n1. Ny Kund \n2. Avsluta\n",1,2)
+    selection = GetIntMenyInput("KASSA \n1. Ny Kund \n2. Admin \n3. Avsluta\n",1,3)
     return selection
 def GetIntMenyInput(menyValA, minValue, maxValue):
     while True:
@@ -26,6 +26,9 @@ def GetIntMenyInput(menyValA, minValue, maxValue):
         except:
            print("Förstår inte vad du menar, försök igen!\n")
     return select
+
+def Admin():
+    pass
 
 def GetNr():
     with open("counter.txt","r") as counter:
@@ -45,17 +48,21 @@ def FindProduct(allProducts, ProductID):
 
 def NewReceipt(allProducts):
     receipt = Receipt()
+    receiptNr = GetNr()
     while True:
-        print(f"Kvitto: #{GetNr()} {GetTime()}")
+        print(f"Kvitto: #{receiptNr} {GetTime()}")
         for row in receipt.GetReceiptRows():
             print(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
         print(receipt.GetTotal())
         try:    
             newPurchase = (input("Buy item or pay e.g 300 1 "))
-            if newPurchase.lower == "pay":
-                with open(f"RECEIPT_{GetDate()}.txt","a") as Kvittot:
+            if newPurchase == "pay":
+                with open(f"RECEIPT_{GetDate()}.txt","a") as kvittot:
+                    kvittot.write(f"Kvitto: #{receiptNr} {GetTime()}")
                     for row in receipt.GetReceiptRows():
-                        Kvittot.write(row)
+                        kvittot.write(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
+                    kvittot.write(f"Total = {receipt.GetTotal()}§\n")
+                    break
             else:
                 try:
                     splitPurchase = newPurchase.split(" ")
@@ -86,5 +93,7 @@ while True:
     if selection == 1:
         NewReceipt(allProducts)
     elif selection == 2:
+        Admin()
+    elif selection == 3:
         break
     
