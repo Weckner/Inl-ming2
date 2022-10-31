@@ -7,14 +7,12 @@ with open("products.txt","r") as productFile:
         parts = product.split(";")
         product = Product(parts[0],parts[1],parts[2],parts[3] )
         allProducts.append(product)
-# print(allProducts[0].GetName())
-# print(allProducts[0].GetPrice())
-# print(allProducts[0].GetPriceType())
-# print(allProducts[0].GetProductID())
+
 
 def HuvudMeny() -> int:
     selection = GetIntMenyInput("KASSA \n1. Ny Kund \n2. Admin \n3. Avsluta\n",1,3)
     return selection
+
 def GetIntMenyInput(menyValA, minValue, maxValue):
     while True:
         try:
@@ -27,8 +25,9 @@ def GetIntMenyInput(menyValA, minValue, maxValue):
            print("Förstår inte vad du menar, försök igen!\n")
     return select
 
-def Admin():
-    pass
+def AdminMeny():
+    selection = GetIntMenyInput("ADMIN \n1. Ändra Produkt \n2. Söka Kvitto \n3. Kampanjer \n4. Tillbaka\n",1,4)
+    return selection
 
 def GetNr():
     with open("counter.txt","r") as counter:
@@ -87,13 +86,41 @@ def GetDate():
     date = datetime.now()
     formatedDate = date.strftime("%Y-%m-%d")
     return formatedDate
+def ChangeProduct():
+    produktNr = input("Ange produktnummer: ")
+    prod = FindProduct(allProducts,produktNr)
+    if prod == None:
+        print("Produkten finns inte!")
+    else: 
+        selection = GetIntMenyInput("Vad vill du ändra? \n1.Namn \n2.Pris",1,2)
+        if selection == 1:
+            newName = input("Ange nytt namn: ")
+            prod.ChangeName(newName)
+        elif selection == 2:
+            newPrice = input("Ange nytt pris: ")
+            prod.ChangePrice(newPrice)
+def SearchReceipt():
+    pass
+def Campaigns():
+    pass
 
 while True:
     selection = HuvudMeny()
     if selection == 1:
         NewReceipt(allProducts)
     elif selection == 2:
-        Admin()
+        selection = AdminMeny()
+        if selection == 1:
+            ChangeProduct()
+        elif selection == 2:
+            SearchReceipt()
+        elif selection == 3:
+            Campaigns()
+        elif selection == 4: 
+            continue
     elif selection == 3:
+        with open("products.txt","w") as productFile:
+            for product in allProducts:
+                productFile.write(f"{product.GetProductID()};{product.GetName()};{product.GetPrice()};{product.GetPriceType()}")
         break
     

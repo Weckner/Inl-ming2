@@ -1,2 +1,3 @@
-300;Bananer;4.50;PerKilo
-200;Bullar;10;PerStyck
+300;Bananer;5.5;PerKilo
+200;Bullar;10.0;PerStyck
+100;Spenat;50.0;PerKilo

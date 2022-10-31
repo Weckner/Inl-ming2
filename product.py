@@ -12,3 +12,7 @@ class Product:
         return self.__ProductID    
     def GetPriceType(self):
         return self.__priceType    
+    def ChangeName(self,newName):
+        self.__Name = newName
+    def ChangePrice(self, newPrice):
+        self.__Price = newPrice
