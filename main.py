@@ -5,7 +5,7 @@ allProducts = []
 with open("products.txt","r") as productFile:
     for product in productFile:
         parts = product.split(";")
-        product = Product(parts[0],parts[1],parts[2],parts[3] )
+        product = Product(parts[0],parts[1],parts[2],parts[3],parts[4],parts[5],parts[6] )
         allProducts.append(product)
 
 
@@ -47,9 +47,8 @@ def FindProduct(allProducts, ProductID):
 
 def NewReceipt(allProducts):
     receipt = Receipt()
-    receiptNr = GetNr()
     while True:
-        print(f"Kvitto: #{receiptNr} {GetTime()}")
+        print(f"Kvitto: {GetTime()}")
         for row in receipt.GetReceiptRows():
             print(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
         print(receipt.GetTotal())
@@ -57,7 +56,7 @@ def NewReceipt(allProducts):
             newPurchase = (input("Buy item or pay e.g 300 1 "))
             if newPurchase == "pay":
                 with open(f"RECEIPT_{GetDate()}.txt","a") as kvittot:
-                    kvittot.write(f"Kvitto: #{receiptNr} {GetTime()}")
+                    kvittot.write(f"#{GetNr()}# Kvitto  {GetTime()}")
                     for row in receipt.GetReceiptRows():
                         kvittot.write(f"{row.GetName()} - {row.GetCount()} * {row.GetPerPrice()} = {row.GetRowTotal()}")
                     kvittot.write(f"Total = {receipt.GetTotal()}§\n")
@@ -86,6 +85,22 @@ def GetDate():
     date = datetime.now()
     formatedDate = date.strftime("%Y-%m-%d")
     return formatedDate
+
+
+def AddCampaign():
+    produktNr = input("Ange produktnummer: ")
+    prod = FindProduct(allProducts,produktNr)
+    if prod == None:
+        print("Produkten finns inte!")
+    else:
+        campaignPrice = float(input("Ange Kampanj pris: "))
+        prod.setCampaignPrice(campaignPrice)
+        startDate = input("När ska det börja? Day Month Year")
+        startdateObject = datetime.strptime(startDate, "%d %M %Y")
+        prod.setStartDate(startdateObject)
+        endDate = input("När ska det sluta? Day Month Year")
+        enddateObject = datetime.strptime(endDate, "%d %M %Y")
+        prod.setEndDate(enddateObject)
 def ChangeProduct():
     produktNr = input("Ange produktnummer: ")
     prod = FindProduct(allProducts,produktNr)
@@ -101,8 +116,6 @@ def ChangeProduct():
             prod.ChangePrice(newPrice)
 def SearchReceipt():
     pass
-def Campaigns():
-    pass
 
 while True:
     selection = HuvudMeny()
@@ -115,12 +128,12 @@ while True:
         elif selection == 2:
             SearchReceipt()
         elif selection == 3:
-            Campaigns()
+            AddCampaign()
         elif selection == 4: 
             continue
     elif selection == 3:
         with open("products.txt","w") as productFile:
             for product in allProducts:
-                productFile.write(f"{product.GetProductID()};{product.GetName()};{product.GetPrice()};{product.GetPriceType()}")
+                    productFile.write(f"{product.GetProductID()};{product.GetName()};{product.GetPrice()};{product.GetPriceType()};{product.GetCampaignPrice()};{product.GetStartDate()};{product.GetEndDate()}\n")
         break
     
