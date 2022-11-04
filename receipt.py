@@ -16,7 +16,6 @@ class ReceiptRow:
     def AddCount(self, count):
         self.__Count = self.__Count + count
     def GetRowTotal(self):
-
         return self.__Count * self.__PerPrice
 
 class Receipt:

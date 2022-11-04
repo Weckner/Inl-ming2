@@ -1,5 +1,5 @@
 class Product:
-    def __init__(self,productID:int, name:str, price:float, priceType:str,startDate, endDate, campaignPrice) -> None:
+    def __init__(self,productID:int, name:str, price:float, priceType:str,campaignPrice, startDate, endDate) -> None:
         self.__ProductID = productID
         self.__Name = name
         self.__Price = price
