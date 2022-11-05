@@ -60,7 +60,7 @@ def NewReceipt(allProducts):
             newPurchase = (input("Buy item or pay e.g 300 1 "))
             if newPurchase == "pay":
                 with open(f"RECEIPT_{GetDate()}.txt","a") as kvittot:
-                    kvittot.write(f"#{GetNr()} Kvitto  {GetTime()}")
+                    kvittot.write(f"#{GetNr()}; Kvitto  {GetTime()};")
                     for row in receipt.GetReceiptRows():
                         kvittot.write(f"{row.GetName()};{row.GetCount()};{row.GetPerPrice()};{row.GetRowTotal()}")
                     kvittot.write(f"Total = {receipt.GetTotal()}§\n")
@@ -118,17 +118,17 @@ def ChangeProduct():
         elif selection == 2:
             newPrice = input("Ange nytt pris: ")
             prod.ChangePrice(newPrice)
-def SearchReceipt():
-    datum = input("Skriv in datum, year-month-day: ")
-    datetoSearch = datetime.strptime(datum, "%Y-%m-%d")
-    with open (f"RECEIPT_{datetoSearch}.txt","r") as kvittot:
-        receiptSearchList = []
-        for receipt in kvittot:
-            parts = receipt.split(";")
-            product = Receipt(parts[0],parts[1],parts[2],parts[3],parts[4],parts[5],parts[6])
-            receiptSearchList.append(product)
-        for kvitto in kvittot:
-            print("")
+# def SearchReceipt():
+#     datum = input("Skriv in datum, year-month-day: ")
+#     datetoSearch = datetime.strptime(datum, "%Y-%m-%d")
+#     with open (f"RECEIPT_{datetoSearch}.txt","r") as kvittot:
+#         receiptSearchList = []
+#         for receipt in kvittot:
+#             parts = receipt.split(";")
+#             product = Receipt(parts[S0],parts[1],parts[2],parts[3],parts[4],parts[5],parts[6])
+#             receiptSearchList.append(product)
+#         for kvitto in kvittot:
+#             print("")
 while True:
     selection = HuvudMeny()
     if selection == 1:
